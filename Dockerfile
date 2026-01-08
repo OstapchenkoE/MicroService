@@ -1,17 +1,34 @@
-# 
-FROM python:3.11
+# Базовый образ Python 3.12 slim (минимальный размер)
+FROM python:3.12-slim
 
-# 
-WORKDIR /code
+# Рабочая директория внутри контейнера
+WORKDIR /app
 
-# 
-COPY ./requirements.txt /code/requirements.txt
+# Установка системных зависимостей
+RUN apt-get update && apt-get install -y \
+    gcc \                    
+    postgresql-client \     
+    git \                    
+    curl \                  
+    && rm -rf /var/lib/apt/lists/*
 
-# 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+# Обновление pip и установочных утилит
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 
-# 
-COPY ./src /code/src
+# Копирование зависимостей
+COPY requirements.txt .
 
-# 
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Установка Python зависимостей
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копирование проекта
+COPY . .
+
+# # Создание директории для миграций
+# RUN mkdir -p alembic/versions
+
+# Открытие порта 8000
+EXPOSE 8000
+
+# Команда запуска приложения
+CMD ["sh", "-c", "alembic upgrade head && python -m src.main"]
