@@ -1,30 +1,3 @@
-# from fastapi import FastAPI
-
-# from .articles.routes import router as articles_router
-
-# app = FastAPI()
-
-# @app.get("/")
-# def root():
-#     return {"message": articles_router}
-
-# routers = {
-#     "/articles": articles_router,
-# }
-
-# # for path, router in routers.items():
-# app.include_router(articles_router, prefi="/articles")
-
-# # # Подключение роутов
-# # # app.include_router(auth_router, prefix="/api", tags=["auth"])
-# # # app.include_router(users.router, prefix="/api", tags=["users"])
-# # app.include_router(articles_router, prefix="/api", tags=["articles"])
-# # # app.include_router(comments.router, prefix="/api", tags=["comments"])
-
-# @app.get("/health")
-# def health_check():
-#     return {"status": "healthy"}
-
 import asyncio
 
 from fastapi import FastAPI, APIRouter
@@ -34,12 +7,10 @@ from src.core.config import settings
 from src.core.database import engine
 
 from .articles.routes import router as articles_router
-from .users.routes import router as users_router
 from .comments.routes import router as comments_router
 
 router = APIRouter()
 router.include_router(articles_router)
-router.include_router(users_router)
 router.include_router(comments_router)
 
 # Инициализировать приложение

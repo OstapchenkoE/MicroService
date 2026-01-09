@@ -1,21 +1,3 @@
-# from schemas import RequestCreateArticle, ResponseGetArticle, ResponseListArticles
-
-
-# def get_articles() -> list[ResponseListArticles]:
-#     ...
-
-# def create_article(post: RequestCreateArticle) -> ResponseGetArticle:
-#     ...
-
-# def get_article(id: str) -> ResponseGetArticle:
-#     ...
-
-# def delete_article(id: str) -> None:
-#     ...
-
-# def update_article(id: str) -> ResponseGetArticle:
-#     ...
-
 from uuid import UUID
 
 from fastapi import HTTPException, status

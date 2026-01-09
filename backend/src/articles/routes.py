@@ -18,7 +18,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.database import get_db
 from src.dependencies import get_current_user
-from src.users.model import User
 
 from .controllers import ArticleController
 from .schemas import ArticleBase, ArticleResponse, ArticleUpdate
@@ -29,12 +28,12 @@ router = APIRouter(prefix="/api/articles", tags=["articles"])
 @router.post("/", response_model=ArticleResponse, status_code=status.HTTP_201_CREATED)
 async def create_article(
     article_in: ArticleBase,
-    current_user: User = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Создать новую статью"""
     controller = ArticleController(db)
-    return await controller.create_article(article_in, current_user.id)
+    return await controller.create_article(article_in, current_user["id"])
 
 
 @router.get("/", response_model=List[ArticleResponse])
@@ -60,21 +59,21 @@ async def get_article(slug: str, db: AsyncSession = Depends(get_db)):
 async def update_article(
     slug: str,
     article_update: ArticleUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Обновить статью"""
     controller = ArticleController(db)
-    return await controller.update_article(slug, article_update, current_user.id)
+    return await controller.update_article(slug, article_update, current_user["id"])
 
 
 @router.delete("/{slug}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_article(
     slug: str,
-    current_user: User = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Удалить статью"""
     controller = ArticleController(db)
-    await controller.delete_article(slug, current_user.id)
+    await controller.delete_article(slug, current_user["id"])
     return None

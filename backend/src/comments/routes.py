@@ -6,7 +6,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.database import get_db
 from src.dependencies import get_current_user
-from src.users.model import User
 
 from .controllers import CommentController
 from .schemas import CommentBase, CommentResponse
@@ -22,12 +21,12 @@ router = APIRouter(prefix="/api/articles", tags=["comments"])
 async def create_comment(
     slug: str,
     comment_in: CommentBase,
-    current_user: User = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Добавить комментарий к статье"""
     controller = CommentController(db)
-    return await controller.create_comment(slug, comment_in, current_user.id)
+    return await controller.create_comment(slug, comment_in, current_user["id"])
 
 
 @router.get("/{slug}/comments", response_model=List[CommentResponse])
@@ -46,10 +45,10 @@ async def get_comments(
 async def delete_comment(
     slug: str,
     comment_id: UUID,
-    current_user: User = Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Удалить комментарий"""
     controller = CommentController(db)
-    await controller.delete_comment(slug, comment_id, current_user.id)
+    await controller.delete_comment(slug, comment_id, current_user["id"])
     return None

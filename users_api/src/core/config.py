@@ -10,8 +10,8 @@ env_file_path = str(base_path / ".env")
 class DatabaseSettings(BaseSettings):
     """Database configuration"""
 
-    db_host: str = "localhost"
-    db_port: int = 5432
+    postgres_address: str = "postgres"
+    postgres_port: int = 5432
     postgres_user: str = "postgres"
     postgres_password: str = "postgres"
     postgres_db: str = "blog_db"
@@ -22,11 +22,12 @@ class DatabaseSettings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
         case_sensitive=False,
+        env_prefix="USERS_",
     )
 
     @property
     def database_url(self) -> str:
-        return f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}@postgres:5432/{self.postgres_db}"
+        return f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}@{self.postgres_address}:{self.postgres_port}/{self.postgres_db}"
 
 
 class JWTSettings(BaseSettings):
@@ -37,10 +38,11 @@ class JWTSettings(BaseSettings):
     expiration_hours: int = 24
 
     model_config = SettingsConfigDict(
-        env_prefix="JWT_",
+        env_prefix="USERS_JWT_",
         env_file=env_file_path,
         env_file_encoding="utf-8",
         extra="ignore",
+        case_sensitive=False,
     )
 
 
@@ -55,10 +57,11 @@ class APISettings(BaseSettings):
     debug: bool = False
 
     model_config = SettingsConfigDict(
-        env_prefix="API_",
+        env_prefix="USERS_API_",
         env_file=env_file_path,
         env_file_encoding="utf-8",
         extra="ignore",
+        case_sensitive=False,
     )
 
 
@@ -78,6 +81,7 @@ class Settings(BaseSettings):
         extra="ignore",
         env_file=env_file_path,
         env_file_encoding="utf-8",
+        case_sensitive=False,
     )
 
 
