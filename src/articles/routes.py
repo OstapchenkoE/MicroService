@@ -1,16 +1,3 @@
-# from fastapi import APIRouter
-
-# from .controllers import create_article, get_article,get_articles, delete_article, update_article
-
-
-# router = APIRouter()
-
-# router.get("/")(get_articles)
-# router.post("/")(create_article)
-# router.delete("/{id}")(delete_article)
-# router.patch("/{id}")(update_article)
-# router.get("/{id}")(get_article)
-
 from typing import List
 
 from fastapi import APIRouter, Depends, Query, status

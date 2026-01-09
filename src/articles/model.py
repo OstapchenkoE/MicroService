@@ -1,16 +1,3 @@
-# import uuid
-# from sqlalchemy import Column, DateTime, String, Text, func
-
-
-# class Article():
-#     __tablename__ = "posts"
-
-#     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-#     title = Column(String(255), nullable=False)
-#     content = Column(Text, nullable=False)
-#     created_at = Column(DateTime, default=func.now(), nullable=False)
-#     updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
-    
 import uuid
 
 from sqlalchemy import Column, DateTime, ForeignKey, String, Text, func

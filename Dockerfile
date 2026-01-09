@@ -24,9 +24,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копирование проекта
 COPY . .
 
-# # Создание директории для миграций
-# RUN mkdir -p alembic/versions
-
 # Открытие порта 8000
 EXPOSE 8000
 

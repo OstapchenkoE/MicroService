@@ -1,25 +1,3 @@
-# from datetime import datetime
-# from pydantic import BaseModel
-
-
-# class RequestCreateArticle(BaseModel):
-#     title: str
-#     description: str
-#     body: str
-#     # tagList: str[]
-
-# class ResponseListArticles(RequestCreateArticle):
-#     id: str
-#     created_at: datetime
-#     updated_at: datetime
-
-# class ResponseGetArticle(ResponseListArticles):
-#     ...
-    
-
-# class Article(ResponseGetArticle):
-#     ...
-
 from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
