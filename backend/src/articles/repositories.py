@@ -4,7 +4,6 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
-
 from src.core.base_repositories import BaseRepository
 
 from .model import Article
@@ -22,10 +21,6 @@ class ArticleRepository(BaseRepository[Article, ArticleCreate, ArticleUpdate]):
     ) -> Optional[Article]:
         """Получить статью по slug"""
         stmt = select(Article).where(Article.slug == slug)
-        if load_author:
-            stmt = stmt.options(selectinload(Article.author))
-        if load_comments:
-            stmt = stmt.options(selectinload(Article.comments))
         result = await self.db.execute(stmt)
         return result.scalar_one_or_none()
 
