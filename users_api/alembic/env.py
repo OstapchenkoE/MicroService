@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from alembic import context
 from src.core.config import settings
 from src.core.database import Base
+from src.users.model import User
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -27,6 +28,7 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 config.set_main_option("sqlalchemy.url", settings.database_url)
+
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -50,6 +52,7 @@ def run_migrations_offline() -> None:
 
     with context.begin_transaction():
         context.run_migrations()
+
 
 def do_run_migrations(connection):
     context.configure(connection=connection, target_metadata=target_metadata)
