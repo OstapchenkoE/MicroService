@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Literal, Optional
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -29,6 +28,7 @@ class DatabaseSettings(BaseSettings):
     def database_url(self) -> str:
         return f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}@{self.postgres_address}:{self.postgres_port}/{self.postgres_db}"
 
+
 class APISettings(BaseSettings):
     """API configuration"""
 
@@ -44,6 +44,23 @@ class APISettings(BaseSettings):
         env_file=env_file_path,
         env_file_encoding="utf-8",
         extra="ignore",
+        case_sensitive=False,
+    )
+
+
+class JWTSettings(BaseSettings):
+    """JWT configuration"""
+
+    secret_key: str = ""
+    algorithm: str = "HS256"
+    expiration_hours: int = 24
+
+    model_config = SettingsConfigDict(
+        env_prefix="USERS_JWT_",
+        env_file=env_file_path,
+        env_file_encoding="utf-8",
+        extra="ignore",
+        case_sensitive=False,
     )
 
 
@@ -51,6 +68,7 @@ class Settings(BaseSettings):
     env: str = "development"
     database_settings: DatabaseSettings = DatabaseSettings()
     api_settings: APISettings = APISettings()
+    jwt_settings: JWTSettings = JWTSettings()
 
     @property
     def database_url(self) -> str:
